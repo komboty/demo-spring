@@ -14,8 +14,7 @@ import com.example.demo.service.PersonaServiceImp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * PersonaController
  */
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/personas")
 public class PersonaController {
@@ -32,7 +32,7 @@ public class PersonaController {
     
     private PersonaService getPersonaService() {
         LOG.debug("inicializar()");
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("blog-tests-memoria");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("blog-tests");
         EntityManager entityManager = emf.createEntityManager();
         PersonaDAO personaDAO = new PersonaDAOImp(entityManager);
         return new PersonaServiceImp(personaDAO);
@@ -40,6 +40,7 @@ public class PersonaController {
 
     @GetMapping
     public List<Persona> getPersonas() { 
-        return getPersonaService().findAll();
+        personaService = getPersonaService();
+        return personaService.findAll();
     }
 }
