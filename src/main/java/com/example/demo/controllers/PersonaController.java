@@ -46,7 +46,7 @@ public class PersonaController {
     }
 
     @GetMapping("/persona/{id}")
-    public Persona findById(@PathVariable Integer id) { 
+    public Persona findById(@PathVariable Integer id) {
         LOG.debug("findById()");
         personaService = getPersonaService();
         return personaService.findById(id);
