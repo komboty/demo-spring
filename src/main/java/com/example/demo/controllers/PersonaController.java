@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,13 +29,15 @@ import org.springframework.web.bind.annotation.RestController;
 //@RequestMapping("/personas")
 public class PersonaController {
     private static Logger LOG = LoggerFactory.getLogger(PersonaController.class);
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("blog-tests-memoria");
+    public static EntityManager entityManager = emf.createEntityManager();
 
     private PersonaService personaService;
     
     private PersonaService getPersonaService() {
         LOG.debug("inicializar()");
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("blog-tests");
-        EntityManager entityManager = emf.createEntityManager();
+        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("blog-tests");        
+        //EntityManager entityManager = emf.createEntityManager();
         PersonaDAO personaDAO = new PersonaDAOImp(entityManager);
         return new PersonaServiceImp(personaDAO);
     }
@@ -46,9 +50,16 @@ public class PersonaController {
     }
 
     @GetMapping("/persona/{id}")
-    public Persona findById(@PathVariable Integer id) {
+    public Persona findById(@PathVariable("id") Integer id) {
         LOG.debug("findById()");
         personaService = getPersonaService();
         return personaService.findById(id);
+    }
+
+    @PostMapping("/persona")
+    public Persona save(@RequestBody Persona persona) {
+        LOG.debug("findById()");
+        personaService = getPersonaService();
+        return personaService.save(persona);
     }
 }

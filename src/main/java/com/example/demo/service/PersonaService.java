@@ -11,4 +11,5 @@ public interface PersonaService {
 
     public Persona findById(Integer id);
     public List<Persona> findAll();
+    public Persona save(Persona persona);
 }

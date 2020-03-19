@@ -28,4 +28,9 @@ public class PersonaServiceImp implements PersonaService {
     public List<Persona> findAll() {
         return personaDAO.findAll();
     }
+
+    @Override
+    public Persona save(Persona persona) {
+        return personaDAO.save(persona);
+    }
 }

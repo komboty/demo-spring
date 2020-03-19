@@ -31,7 +31,10 @@ public abstract class GenericDAOImp<T,PK> implements GenericDAO<T,PK>{
 
     @Override
     public T save(T a) {
-        return this.entityManager.merge(a);
+        this.entityManager.getTransaction().begin();
+        T aNew = this.entityManager.merge(a);
+        this.entityManager.getTransaction().commit();
+        return aNew;
     }
 
     @Override
